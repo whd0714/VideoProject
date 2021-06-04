@@ -12,12 +12,14 @@ import videoproject.video.member.Member;
 import videoproject.video.member.MemberRepository;
 import videoproject.video.videos.dto.ServerUploadVideoDto;
 import videoproject.video.videos.dto.VideoThumbnailDto;
+import videoproject.video.videos.dto.VideoUploadDto;
 
 import javax.transaction.TransactionScoped;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @TransactionScoped
@@ -29,6 +31,7 @@ public class VideoService {
 
     private static final String VIDEO_PATH = "F:\\VideoProject\\src\\main\\resources\\static\\upload\\video\\";
     private static final String THUMBNAIL_SAVE_PATH = "F:\\VideoProject\\src\\main\\resources\\static\\upload\\thumbnail\\";
+
 
     public Map serverUpload(ServerUploadVideoDto serverUploadVideoDto) {
         String filename = serverUploadVideoDto.getFile().getOriginalFilename();
@@ -79,4 +82,17 @@ public class VideoService {
 
         return map;
     }
+
+
+    public void videoUpload(VideoUploadDto videoUploadDto, Long id) {
+        Optional<Member> member = memberRepository.findById(id);
+        member.ifPresent(m -> {
+            Video video = new Video(videoUploadDto.getTitle(), videoUploadDto.getDuration(), videoUploadDto.getDescription(),
+                    videoUploadDto.getAccess(), videoUploadDto.getCategory(), videoUploadDto.getFilepath(),
+                    videoUploadDto.getThumbnailPath(), m);
+            videoRepository.save(video);
+        });
+
+    }
+
 }

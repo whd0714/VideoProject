@@ -42,6 +42,7 @@ public class MemberController {
 
     @PostMapping("/api/login")
     public Map login(@RequestBody MemberLoginDto memberLoginDto, Errors errors) {
+        System.out.println("@@@@" + memberLoginDto);
         Map map = new HashMap<String, Object>();
         if(errors.hasErrors()) {
             map.put("success", false);

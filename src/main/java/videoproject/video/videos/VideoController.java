@@ -10,6 +10,7 @@ import videoproject.video.member.CurrentUser;
 import videoproject.video.member.Member;
 import videoproject.video.videos.dto.ServerUploadVideoDto;
 import videoproject.video.videos.dto.VideoThumbnailDto;
+import videoproject.video.videos.dto.VideoUploadDto;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -48,6 +49,23 @@ public class VideoController {
 
         map = videoService.videoThumbnail(videoThumbnailDto);
         response.setCharacterEncoding("UTF-8");
+        return map;
+    }
+
+    @PostMapping("/api/video/upload")
+    public Map videoUpload(@CurrentUser Member member, @Valid @RequestBody VideoUploadDto videoUploadDto, Errors errors) {
+        System.out.println(videoUploadDto);
+
+        Map map = new HashMap<String, Object>();
+        if(errors.hasErrors()) {
+            map.put("success", false);
+            return map;
+        }
+        if(member != null) {
+            videoService.videoUpload(videoUploadDto, member.getId());
+        }
+
+        map.put("success", true);
         return map;
     }
 

@@ -39,7 +39,7 @@ public class MemberService {
     }
 
     public Map loginProcess(MemberLoginDto memberLoginDto) {
-        Member member = memberRepository.findByEmail(memberLoginDto);
+        Member member = memberRepository.findByEmail(memberLoginDto.getEmail());
         Map map = new HashMap<String, Object>();
         if(member==null) {
             map.put("success", false);

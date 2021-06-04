@@ -6,5 +6,5 @@ import videoproject.video.member.dto.MemberLoginDto;
 public interface MemberRepository extends JpaRepository<Member, Long> {
     boolean existsByEmail(String email);
 
-    Member findByEmail(MemberLoginDto memberLoginDto);
+    Member findByEmail(String email);
 }
