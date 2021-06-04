@@ -20,7 +20,7 @@ public class MemberRegisterDto {
     @Length(min = 8, max = 30)
     private String password;
 
-    @NotBlank
+    /*@NotBlank
     @Length(min = 8, max = 30)
-    private String confirmPassword;
+    private String confirmPassword;*/
 }
