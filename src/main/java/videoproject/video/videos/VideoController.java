@@ -4,12 +4,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import videoproject.video.member.CurrentUser;
 import videoproject.video.member.Member;
 import videoproject.video.videos.dto.ServerUploadVideoDto;
+import videoproject.video.videos.dto.VideoThumbnailDto;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,6 +33,21 @@ public class VideoController {
         }
         map = videoService.serverUpload(serverUploadVideoDto);
 
+        return map;
+    }
+
+    @PostMapping("/api/video/thumbnail")
+    public Map videoThumbnail(@Valid @RequestBody VideoThumbnailDto videoThumbnailDto, Errors errors, HttpServletResponse response) throws IOException {
+        System.out.println(videoThumbnailDto);
+
+        Map map = new HashMap<String, Object>();
+        if (errors.hasErrors()) {
+            map.put("success", false);
+            return map;
+        }
+
+        map = videoService.videoThumbnail(videoThumbnailDto);
+        response.setCharacterEncoding("UTF-8");
         return map;
     }
 
