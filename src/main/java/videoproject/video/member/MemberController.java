@@ -22,10 +22,10 @@ public class MemberController {
     private final MemberService memberService;
     private final RegisterValidator registerValidator;
 
-    @InitBinder("memberRegisterDto")
+    /*@InitBinder("memberRegisterDto")
     public void registerBinder(WebDataBinder webDataBinder) {
         webDataBinder.addValidators(registerValidator);
-    }
+    }*/
 
     @PostMapping("/api/register")
     public Map register(@Valid @RequestBody MemberRegisterDto memberRegisterDto, Errors errors) {

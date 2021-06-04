@@ -3,12 +3,12 @@ package videoproject.video.member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import videoproject.video.videos.Video;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -25,6 +25,9 @@ public class Member {
     private String password;
     private LocalDateTime joinAt;
     private boolean isAdmin;
+
+    @OneToMany(mappedBy = "member")
+    private List<Video> videos = new ArrayList<>();
 
     public Member(String name, String email, String password) {
         this.name = name;
