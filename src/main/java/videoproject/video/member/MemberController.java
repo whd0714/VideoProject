@@ -3,6 +3,9 @@ package videoproject.video.member;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +13,8 @@ import videoproject.video.member.dto.MemberLoginDto;
 import videoproject.video.member.dto.MemberRegisterDto;
 import videoproject.video.member.validator.RegisterValidator;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -57,10 +62,23 @@ public class MemberController {
     @GetMapping("/api/auth")
     public Result authMember(@CurrentUser Member member) {
         if (member == null) {
-            return null;
+            Map map = new HashMap<String, Object>();
+            map.put("success", false);
+            return new Result(map);
         }
         AuthMember authMember = new AuthMember(member.getName(), member.getEmail(), member.isAdmin(), member.getJoinAt());
         return new Result(authMember);
+    }
+
+    @GetMapping("/api/logout")
+    public Map logout(HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.isAuthenticated()) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        Map map = new HashMap<String, Object>();
+        map.put("success", true);
+        return map;
     }
 
     @Data

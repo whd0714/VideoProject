@@ -54,8 +54,6 @@ public class VideoController {
 
     @PostMapping("/api/video/upload")
     public Map videoUpload(@CurrentUser Member member, @Valid @RequestBody VideoUploadDto videoUploadDto, Errors errors) {
-        System.out.println(videoUploadDto);
-
         Map map = new HashMap<String, Object>();
         if(errors.hasErrors()) {
             map.put("success", false);
