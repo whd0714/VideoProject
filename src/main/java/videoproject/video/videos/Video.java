@@ -1,11 +1,17 @@
 package videoproject.video.videos;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import videoproject.video.member.Member;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Video {
 
     @Id @GeneratedValue
