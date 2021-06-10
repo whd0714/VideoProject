@@ -74,9 +74,11 @@ public class VideoService {
         executor.createJob(builder).run();
 
         String filePath = "upload/thumbnail/" + filename +".jpg";
+        String videoPath = "upload/video/" + filename;
 
         Map map = new HashMap<String, Object>();
         map.put("filepath", filePath);
+        map.put("videoPath", videoPath);
         map.put("duration", duration);
         map.put("success", true);
 

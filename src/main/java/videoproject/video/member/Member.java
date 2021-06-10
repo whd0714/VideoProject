@@ -35,4 +35,16 @@ public class Member {
         this.password = password;
         this.joinAt = LocalDateTime.now();
     }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", joinAt=" + joinAt +
+                ", isAdmin=" + isAdmin +
+                '}';
+    }
 }

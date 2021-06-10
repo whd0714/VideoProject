@@ -50,4 +50,20 @@ public class Video {
         member.getVideos().add(this);
         this.member = member;
     }
+
+    @Override
+    public String toString() {
+        return "Video{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", filepath='" + filepath + '\'' +
+                ", thumbnailPath='" + thumbnailPath + '\'' +
+                ", uploadDate=" + uploadDate +
+                ", duration='" + duration + '\'' +
+                ", access='" + access + '\'' +
+                ", category='" + category + '\'' +
+                ", views=" + views +
+                '}';
+    }
 }

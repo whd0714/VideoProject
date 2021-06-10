@@ -26,7 +26,7 @@ public class MainController {
 
         List<RecommendVideosDto> collect = videos.stream().map(v -> new RecommendVideosDto(v)).collect(Collectors.toList());
         Result result = new Result(collect, true);
-        System.out.println("!!!" + result);
+
         return result;
     }
 
@@ -40,8 +40,10 @@ public class MainController {
         private int views;
         private LocalDateTime uploadDate;
         private String name;
+        private String description;
 
         public RecommendVideosDto(Video video) {
+            this.id = video.getId();
             this.title = video.getTitle();
             this.duration = video.getDuration();
             this.filepath = video.getFilepath();
@@ -49,6 +51,7 @@ public class MainController {
             this.views = video.getViews();
             this.uploadDate = video.getUploadDate();
             this.name = video.getMember().getName();
+            this.description = video.getDescription();
         }
     }
 
