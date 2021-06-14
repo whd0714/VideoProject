@@ -48,6 +48,7 @@ public class MemberService {
 
         login(member);
         map.put("success", true);
+        map.put("memberId", member.getId());
         return map;
     }
 }

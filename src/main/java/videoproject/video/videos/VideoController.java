@@ -7,18 +7,16 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import videoproject.video.member.CurrentUser;
 import videoproject.video.member.Member;
-import videoproject.video.videos.dto.ServerUploadVideoDto;
-import videoproject.video.videos.dto.VideoDetailDto;
-import videoproject.video.videos.dto.VideoThumbnailDto;
-import videoproject.video.videos.dto.VideoUploadDto;
+import videoproject.video.videos.dto.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -71,18 +69,29 @@ public class VideoController {
     }
 
     @PostMapping("/api/video/getVideo")
-    public Result getVideo(@RequestBody VideoDetailDto videoDetailDto) {
+    public Result getVideo(@RequestBody VideoIdDto videoIdDto) {
         Map map = new HashMap<String, Object>();
 
-        Video video = videoRepository.findVideoDetailById(videoDetailDto.getVideoId());
+        Video video = videoRepository.findVideoDetailById(videoIdDto.getVideoId());
 
         DetailVideo detailVideo = new DetailVideo(video);
 
         return new Result(detailVideo);
     }
 
+    @PostMapping("/api/video/sideVideo")
+    public Result getSideVideos(@RequestBody VideoIdDto videoIdDto) {
+
+        List<Video> sideVideos = videoRepository.findSideVideos(videoIdDto.getVideoId());
+
+        List<DetailVideo> collect = sideVideos.stream().map(v -> new DetailVideo(v)).collect(Collectors.toList());
+
+        return new Result(collect);
+    }
+
     @Data
     static class DetailVideo {
+        private Long memberId;
         private String name;
         private String title;
         private String description;
@@ -95,6 +104,7 @@ public class VideoController {
         private int views;
 
         public DetailVideo(Video video) {
+            this.memberId = video.getMember().getId();
             this.name = video.getMember().getName();
             this.title = video.getTitle();
             this.description = video.getDescription();
@@ -110,6 +120,7 @@ public class VideoController {
 
     @Data
     @AllArgsConstructor
+
     static class Result<T> {
         private T data;
         private boolean success;

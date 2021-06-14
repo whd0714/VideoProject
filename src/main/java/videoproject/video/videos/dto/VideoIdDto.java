@@ -3,7 +3,7 @@ package videoproject.video.videos.dto;
 import lombok.Data;
 
 @Data
-public class VideoDetailDto {
+public class VideoIdDto {
 
     private Long videoId;
 }

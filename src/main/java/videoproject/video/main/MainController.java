@@ -33,6 +33,7 @@ public class MainController {
     @Data
     static class RecommendVideosDto {
         private Long id;
+        private Long memberId;
         private String title;
         private String duration;
         private String filepath;
@@ -44,6 +45,7 @@ public class MainController {
 
         public RecommendVideosDto(Video video) {
             this.id = video.getId();
+            this.memberId = video.getMember().getId();
             this.title = video.getTitle();
             this.duration = video.getDuration();
             this.filepath = video.getFilepath();

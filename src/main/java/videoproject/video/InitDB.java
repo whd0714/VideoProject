@@ -18,7 +18,7 @@ public class InitDB {
 
     @PostConstruct
     public void init() {
-        initService.db1();
+        //initService.db1();
     }
 
     @Component
