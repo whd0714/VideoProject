@@ -30,6 +30,6 @@ public class SubScribe
 
     public SubScribe(Member creator) {
         this.creator = creator;
-        creator.changeSubscribe(this);
+        //creator.changeSubscribe(this);
     }
 }

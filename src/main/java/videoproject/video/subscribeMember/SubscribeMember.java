@@ -19,7 +19,7 @@ public class SubscribeMember {
     @Column(name = "subscribe_member_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "subscribe_id")
     private SubScribe subscribe;
 

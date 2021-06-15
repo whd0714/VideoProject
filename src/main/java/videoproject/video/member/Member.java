@@ -34,8 +34,8 @@ public class Member {
     @OneToMany(mappedBy = "member", orphanRemoval = true)
     private List<SubscribeMember> subscribeMembers = new ArrayList<>();
 
-    @OneToOne(mappedBy = "creator", fetch = FetchType.LAZY)
-    private SubScribe subScribe;
+/*    @OneToOne(mappedBy = "creator", fetch = FetchType.LAZY)
+    private SubScribe subScribe;*/
 
     public Member(String name, String email, String password) {
         this.name = name;
@@ -44,9 +44,9 @@ public class Member {
         this.joinAt = LocalDateTime.now();
     }
 
-    public void changeSubscribe(SubScribe subScribe) {
+   /* public void changeSubscribe(SubScribe subScribe) {
         this.subScribe = subScribe;
-    }
+    }*/
 
     @Override
     public String toString() {
