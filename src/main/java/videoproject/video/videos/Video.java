@@ -46,9 +46,13 @@ public class Video {
         changeMember(member);
     }
 
-    private void changeMember(Member member) {
+    public void changeMember(Member member) {
         member.getVideos().add(this);
         this.member = member;
+    }
+
+    public void updateView() {
+        this.views +=1;
     }
 
     @Override

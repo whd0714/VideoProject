@@ -74,6 +74,8 @@ public class VideoController {
 
         Video video = videoRepository.findVideoDetailById(videoIdDto.getVideoId());
 
+        videoService.viewUpdate(videoIdDto.getVideoId());
+
         DetailVideo detailVideo = new DetailVideo(video);
 
         return new Result(detailVideo);

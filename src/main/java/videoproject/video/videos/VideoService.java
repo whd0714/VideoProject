@@ -15,6 +15,7 @@ import videoproject.video.videos.dto.VideoThumbnailDto;
 import videoproject.video.videos.dto.VideoUploadDto;
 
 import javax.transaction.TransactionScoped;
+import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -22,7 +23,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-@TransactionScoped
+@Transactional
 @RequiredArgsConstructor
 public class VideoService {
 
@@ -97,4 +98,11 @@ public class VideoService {
 
     }
 
+    public void viewUpdate(Long videoId) {
+        Optional<Video> video = videoRepository.findById(videoId);
+        System.out.println("lklklklklklkl");
+        video.ifPresent(v->{
+            v.updateView();
+        });
+    }
 }
