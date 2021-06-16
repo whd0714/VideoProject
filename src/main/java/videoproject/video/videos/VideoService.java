@@ -100,7 +100,6 @@ public class VideoService {
 
     public void viewUpdate(Long videoId) {
         Optional<Video> video = videoRepository.findById(videoId);
-        System.out.println("lklklklklklkl");
         video.ifPresent(v->{
             v.updateView();
         });

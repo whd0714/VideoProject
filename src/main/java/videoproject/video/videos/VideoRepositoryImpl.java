@@ -4,11 +4,13 @@ package videoproject.video.videos;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import videoproject.video.member.QMember;
+import videoproject.video.subscribe.QSubScribe;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
 import static videoproject.video.member.QMember.member;
+import static videoproject.video.subscribe.QSubScribe.subScribe;
 import static videoproject.video.videos.QVideo.video;
 
 public class VideoRepositoryImpl implements VideoCustomRepository{
@@ -26,6 +28,16 @@ public class VideoRepositoryImpl implements VideoCustomRepository{
                 .selectFrom(video)
                 .join(video.member, member).fetchJoin()
                 .where(videoMember(videoId))
+                .fetch();
+        return fetch;
+    }
+
+    @Override
+    public List<Video> findSubscriptionVideos(Long memberId) {
+        List<Video> fetch = queryFactory
+                .selectFrom(video)
+                .join(video.member, member).fetchJoin()
+                .where(member.id.eq(memberId))
                 .fetch();
         return fetch;
     }

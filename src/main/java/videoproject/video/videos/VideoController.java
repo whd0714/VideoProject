@@ -7,6 +7,9 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import videoproject.video.member.CurrentUser;
 import videoproject.video.member.Member;
+import videoproject.video.member.MemberRepository;
+import videoproject.video.subscribe.SubScribe;
+import videoproject.video.subscribeMember.SubscribeMember;
 import videoproject.video.videos.dto.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -24,6 +28,8 @@ public class VideoController {
 
     private final VideoService videoService;
     private final VideoRepository videoRepository;
+    private final MemberRepository memberRepository;
+    private List<DetailVideo> collect;
 
     @PostMapping("/api/video/server/upload")
     public Map videoServerUpload(@Valid @ModelAttribute ServerUploadVideoDto serverUploadVideoDto, Errors errors) {
@@ -91,6 +97,34 @@ public class VideoController {
         return new Result(collect);
     }
 
+    @PostMapping("/api/subscription/videos")
+    public Result getSubscriptionVideos(@RequestBody MemberIdDto memberIdDto) {
+        Optional<Member> member = memberRepository.findById(memberIdDto.getMemberId());
+
+        System.out.println("AAAAAAaaaaa" + memberIdDto);
+
+
+        member.ifPresent(m -> {
+            List<SubScribe> subScribes = m.getSubscribeMembers().stream().map(sb -> sb.getSubscribe()).collect(Collectors.toList());
+
+            for (SubScribe subScribe : subScribes) {
+                List<Video> subscriptionVideos = videoRepository.findSubscriptionVideos(subScribe.getCreator().getId());
+                collect = subscriptionVideos.stream().map(v -> new DetailVideo(v)
+                ).collect(Collectors.toList());
+            }
+        });
+        Result result = new Result(collect);
+        if(collect == null) {
+            result.setSubscription(false);
+        } else {
+            result.setSubscription(true);
+        }
+
+
+        return result;
+    }
+
+
     @Data
     static class DetailVideo {
         private Long memberId;
@@ -122,13 +156,13 @@ public class VideoController {
 
     @Data
     @AllArgsConstructor
-
     static class Result<T> {
-        private T data;
+        private T result2;
         private boolean success;
+        private boolean isSubscription;
 
         public Result(T data) {
-            this.data = data;
+            this.result2 = data;
             this.success = true;
         }
     }

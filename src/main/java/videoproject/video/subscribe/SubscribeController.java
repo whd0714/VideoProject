@@ -24,11 +24,15 @@ public class SubscribeController {
     @PostMapping("/api/subscribe/subscribeNumber")
     public Map subscribeNumber(@RequestBody SubscribeCreatorDto subscribeCreatorDto) {
         System.out.println("구독자수 = " + subscribeCreatorDto);
-
-        Long count = subscribeRepository.findSubscribeNumber(subscribeCreatorDto.getCreatorId());
         Map map = new HashMap<String, Object>();
-        map.put("success", true);
-        map.put("count", count);
+
+        if(subscribeCreatorDto.getCreatorId() != null) {
+            Long count = subscribeRepository.findSubscribeNumber(subscribeCreatorDto.getCreatorId());
+            map.put("success", true);
+            map.put("count", count);
+        }
+
+        System.out.println("JJJJJJJJJ" + map);
         return map;
     }
 
