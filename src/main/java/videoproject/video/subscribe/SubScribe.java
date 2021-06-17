@@ -3,8 +3,9 @@ package videoproject.video.subscribe;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import videoproject.video.creator.Creator;
 import videoproject.video.member.Member;
-import videoproject.video.subscribeMember.SubscribeMember;
+
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -21,15 +22,16 @@ public class SubScribe
     @Column(name = "subscribe_id")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private Member creator;
+    private Member subscriber;
 
-    @OneToMany(mappedBy = "subscribe", orphanRemoval = true)
-    private List<SubscribeMember> subscribeMembers = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "creator_id")
+    private Creator creator;
 
-    public SubScribe(Member creator) {
+    public SubScribe(Creator creator, Member subscriber) {
+        this.subscriber = subscriber;
         this.creator = creator;
-        //creator.changeSubscribe(this);
     }
 }

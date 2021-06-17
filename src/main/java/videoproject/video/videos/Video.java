@@ -3,7 +3,7 @@ package videoproject.video.videos;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import videoproject.video.member.Member;
+import videoproject.video.creator.Creator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -29,11 +29,11 @@ public class Video {
     private int views;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @JoinColumn(name = "creator_id")
+    private Creator creator;
 
     public Video(String title, String duration, String description, String access, String category,
-                 String filepath, String thumbnailPath, Member member) {
+                 String filepath, String thumbnailPath, Creator creator) {
         this.title = title;
         this.duration = duration;
         this.description = description;
@@ -43,12 +43,12 @@ public class Video {
         this.thumbnailPath = thumbnailPath;
         this.uploadDate = LocalDateTime.now();
         this.views = 0;
-        changeMember(member);
+        changeMember(creator);
     }
 
-    public void changeMember(Member member) {
-        member.getVideos().add(this);
-        this.member = member;
+    public void changeMember(Creator creator) {
+        creator.getVideos().add(this);
+        this.creator = creator;
     }
 
     public void updateView() {

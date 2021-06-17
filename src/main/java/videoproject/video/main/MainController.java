@@ -45,14 +45,14 @@ public class MainController {
 
         public RecommendVideosDto(Video video) {
             this.id = video.getId();
-            this.memberId = video.getMember().getId();
+            this.memberId = video.getCreator().getId();
             this.title = video.getTitle();
             this.duration = video.getDuration();
             this.filepath = video.getFilepath();
             this.thumbnailPath = video.getThumbnailPath();
             this.views = video.getViews();
             this.uploadDate = video.getUploadDate();
-            this.name = video.getMember().getName();
+            this.name = video.getCreator().getMember().getName();
             this.description = video.getDescription();
         }
     }

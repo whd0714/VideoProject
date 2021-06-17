@@ -8,6 +8,8 @@ import net.bramp.ffmpeg.builder.FFmpegBuilder;
 import net.bramp.ffmpeg.probe.FFmpegFormat;
 import net.bramp.ffmpeg.probe.FFmpegProbeResult;
 import org.springframework.stereotype.Service;
+import videoproject.video.creator.Creator;
+import videoproject.video.creator.CreatorRepository;
 import videoproject.video.member.Member;
 import videoproject.video.member.MemberRepository;
 import videoproject.video.videos.dto.ServerUploadVideoDto;
@@ -29,6 +31,7 @@ public class VideoService {
 
     private final VideoRepository videoRepository;
     private final MemberRepository memberRepository;
+    private final CreatorRepository creatorRepository;
 
     private static final String VIDEO_PATH = "F:\\VideoProject\\src\\main\\resources\\static\\upload\\video\\";
     private static final String THUMBNAIL_SAVE_PATH = "F:\\VideoProject\\src\\main\\resources\\static\\upload\\thumbnail\\";
@@ -90,9 +93,15 @@ public class VideoService {
     public void videoUpload(VideoUploadDto videoUploadDto, Long id) {
         Optional<Member> member = memberRepository.findById(id);
         member.ifPresent(m -> {
+            Creator creator = m.getCreator();
+            if(creator==null){
+                creator = new Creator(m);
+            }
+
             Video video = new Video(videoUploadDto.getTitle(), videoUploadDto.getDuration(), videoUploadDto.getDescription(),
                     videoUploadDto.getAccess(), videoUploadDto.getCategory(), videoUploadDto.getFilepath(),
-                    videoUploadDto.getThumbnailPath(), m);
+                    videoUploadDto.getThumbnailPath(), creator);
+            creatorRepository.save(creator);
             videoRepository.save(video);
         });
 

@@ -1,14 +1,13 @@
 package videoproject.video.subscribe;
 
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import videoproject.video.creator.Creator;
+import videoproject.video.creator.CreatorRepository;
 import videoproject.video.member.Member;
 import videoproject.video.member.MemberRepository;
 import videoproject.video.subscribe.dto.SubscribedDto;
-import videoproject.video.subscribeMember.SubScribeMemberRepository;
-import videoproject.video.subscribeMember.SubscribeMember;
 
 import java.util.Optional;
 
@@ -19,16 +18,15 @@ public class SubscribeService {
 
     private final SubscribeRepository subscribeRepository;
     private final MemberRepository memberRepository;
-    private final SubScribeMemberRepository subScribeMemberRepository;
-
+    private final CreatorRepository creatorRepository;
 
     public void unsubscribe(SubscribedDto subscribedDto) {
-        final Member[] creator = new Member[1];
+        final Creator[] creator = new Creator[1];
         final Member[] subscriber = new Member[1];
 
-        Optional<Member> creatorById = memberRepository.findById(subscribedDto.getCreatorId());
-        creatorById.ifPresent(m->{
-            creator[0] = m;
+        Optional<Creator> creatorById = creatorRepository.findById(subscribedDto.getCreatorId());
+        creatorById.ifPresent(c->{
+            creator[0] = c;
         });
 
         Optional<Member> subscribeById = memberRepository.findById(subscribedDto.getSubscriberId());
@@ -37,19 +35,17 @@ public class SubscribeService {
         });
 
         SubScribe subscribe = subscribeRepository.findSubscribed(subscribedDto.getCreatorId(), subscribedDto.getSubscriberId());
-
-        SubscribeMember subscribeMember = subScribeMemberRepository.findSubMemberBySubIdAndMemberId(subscribe.getId(), subscribedDto.getSubscriberId());
-        subScribeMemberRepository.delete(subscribeMember);
+        subscribeRepository.delete(subscribe);
 
     }
 
     public void subscribe(SubscribedDto subscribedDto) {
-        final Member[] creator = new Member[1];
+        final Creator[] creator = new Creator[1];
         final Member[] subscriber = new Member[1];
 
-        Optional<Member> creatorById = memberRepository.findById(subscribedDto.getCreatorId());
-        creatorById.ifPresent(m->{
-            creator[0] = m;
+        Optional<Creator> creatorById = creatorRepository.findById(subscribedDto.getCreatorId());
+        creatorById.ifPresent(c->{
+            creator[0] = c;
         });
 
         Optional<Member> subscribeById = memberRepository.findById(subscribedDto.getSubscriberId());
@@ -57,11 +53,9 @@ public class SubscribeService {
             subscriber[0] = m;
         });
 
-        SubScribe subScribe = new SubScribe(creator[0]);
-        SubscribeMember subscribeMember = new SubscribeMember(subscriber[0], subScribe);
+        SubScribe subScribe = new SubScribe(creator[0], subscriber[0]);
 
         subscribeRepository.save(subScribe);
-        subScribeMemberRepository.save(subscribeMember);
 
     }
 }

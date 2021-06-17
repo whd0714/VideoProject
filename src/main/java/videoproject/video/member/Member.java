@@ -3,8 +3,9 @@ package videoproject.video.member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import videoproject.video.creator.Creator;
 import videoproject.video.subscribe.SubScribe;
-import videoproject.video.subscribeMember.SubscribeMember;
+
 import videoproject.video.videos.Video;
 
 import javax.persistence.*;
@@ -28,14 +29,12 @@ public class Member {
     private LocalDateTime joinAt;
     private boolean isAdmin;
 
-    @OneToMany(mappedBy = "member")
-    private List<Video> videos = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", orphanRemoval = true)
-    private List<SubscribeMember> subscribeMembers = new ArrayList<>();
+    @OneToMany(mappedBy = "subscriber", fetch = FetchType.LAZY)
+    private List<SubScribe> subScribes = new ArrayList<>();
 
-/*    @OneToOne(mappedBy = "creator", fetch = FetchType.LAZY)
-    private SubScribe subScribe;*/
+    @OneToOne(mappedBy = "member",fetch = FetchType.LAZY)
+    private Creator creator;
 
     public Member(String name, String email, String password) {
         this.name = name;
@@ -58,5 +57,9 @@ public class Member {
                 ", joinAt=" + joinAt +
                 ", isAdmin=" + isAdmin +
                 '}';
+    }
+
+    public void creator(Creator creator) {
+        this.creator = creator;
     }
 }

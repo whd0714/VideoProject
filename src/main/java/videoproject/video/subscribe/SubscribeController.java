@@ -39,10 +39,10 @@ public class SubscribeController {
     @PostMapping("/api/subscribe/subscribed")
     public Map subscribed(@RequestBody SubscribedDto subscribedDto) {
         System.out.println(subscribedDto);
-
+        Map map = new HashMap<String, Object>();
         SubScribe subscribe = subscribeRepository.findSubscribed(subscribedDto.getCreatorId(), subscribedDto.getSubscriberId());
         boolean result = false;
-        Map map = new HashMap<String, Object>();
+
         if(subscribe != null) {
             result = true;
         }
