@@ -3,6 +3,7 @@ package videoproject.video.member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import videoproject.video.comment.Comment;
 import videoproject.video.creator.Creator;
 import videoproject.video.subscribe.SubScribe;
 
@@ -35,6 +36,9 @@ public class Member {
 
     @OneToOne(mappedBy = "member",fetch = FetchType.LAZY)
     private Creator creator;
+
+    @OneToMany()
+    private List<Comment> comments = new ArrayList<>();
 
     public Member(String name, String email, String password) {
         this.name = name;

@@ -3,10 +3,13 @@ package videoproject.video.videos;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import videoproject.video.comment.Comment;
 import videoproject.video.creator.Creator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -31,6 +34,9 @@ public class Video {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creator_id")
     private Creator creator;
+
+    @OneToMany(mappedBy = "video")
+    private List<Comment> comments = new ArrayList<>();
 
     public Video(String title, String duration, String description, String access, String category,
                  String filepath, String thumbnailPath, Creator creator) {
