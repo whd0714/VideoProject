@@ -37,8 +37,8 @@ public class Comment {
 
     public Comment(Member member, Video video) {
         this.member = member;
-        //member.getComments(this);
+        member.getComments().add(this);
         this.video = video;
-        //video.getCategory(this);
+        video.getComments().add(this);
     }
 }

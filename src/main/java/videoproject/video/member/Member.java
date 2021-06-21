@@ -37,7 +37,7 @@ public class Member {
     @OneToOne(mappedBy = "member",fetch = FetchType.LAZY)
     private Creator creator;
 
-    @OneToMany()
+    @OneToMany(mappedBy = "member")
     private List<Comment> comments = new ArrayList<>();
 
     public Member(String name, String email, String password) {
