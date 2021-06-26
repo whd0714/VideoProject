@@ -6,6 +6,6 @@ import lombok.Data;
 public class RootCommentDto {
 
     private Long videoId;
-    private Long commenterId;
-
+    private String comment;
+    private Long memberId;
 }

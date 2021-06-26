@@ -26,7 +26,7 @@ public class CommentService {
         final Member[] members = new Member[1];
         final Video[] videos = new Video[1];
 
-        Optional<Member> member = memberRepository.findById(rootCommentDto.getCommenterId());
+        Optional<Member> member = memberRepository.findById(rootCommentDto.getMemberId());
         member.ifPresent(m->{
             members[0] = m;
         });

@@ -66,7 +66,7 @@ public class MemberController {
             map.put("success", false);
             return new Result(map);
         }
-        AuthMember authMember = new AuthMember(member.getName(), member.getEmail(), member.isAdmin(), member.getJoinAt());
+        AuthMember authMember = new AuthMember(member.getId(), member.getName(), member.getEmail(), member.isAdmin(), member.getJoinAt());
         return new Result(authMember);
     }
 
@@ -89,13 +89,15 @@ public class MemberController {
 
     @Data
     static class AuthMember {
+        private Long memberId;
         private String name;
         private String email;
         private boolean isAdmin;
         private LocalDateTime joinAt;
         private boolean success;
 
-        public AuthMember(String name, String email, boolean admin, LocalDateTime joinAt) {
+        public AuthMember(Long memberId, String name, String email, boolean admin, LocalDateTime joinAt) {
+            this.memberId = memberId;
             this.name = name;
             this.email = email;
             this.isAdmin = admin;

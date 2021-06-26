@@ -20,6 +20,7 @@ public class CommentController {
     @PostMapping("/api/comment/new/root")
     public Result newRootComment(@RequestBody RootCommentDto rootCommentDto) {
 
+        System.out.println("@@@@@@@@@@" + rootCommentDto);
         commentService.rootComment(rootCommentDto);
 
         return null;
