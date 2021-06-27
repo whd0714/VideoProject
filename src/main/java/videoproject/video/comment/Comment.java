@@ -35,10 +35,26 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
-    public Comment(Member member, Video video) {
+    public void changeComment(Comment parent) {
+        parent.getChildComments().add(this);
+        this.parent = parent;
+    }
+
+    public Comment(Member member, Video video, String content) {
         this.member = member;
         member.getComments().add(this);
         this.video = video;
         video.getComments().add(this);
+        this.content = content;
+    }
+
+    public Comment(Member member, Video video, String content, Comment parent) {
+        this.member = member;
+        member.getComments().add(this);
+        this.video = video;
+        video.getComments().add(this);
+        this.content = content;
+        this.content = content;
+        changeComment(parent);
     }
 }
