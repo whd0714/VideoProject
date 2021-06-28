@@ -27,8 +27,16 @@ public class Creator {
     @OneToMany(mappedBy = "creator")
     private List<Video> videos = new ArrayList<>();
 
+    @Override
+    public String toString() {
+        return "Creator{" +
+                "id=" + id +
+                '}';
+    }
+
     public Creator(Member member) {
         this.member = member;
-        member.creator(this);
+        //member.creator(this);
     }
+
 }

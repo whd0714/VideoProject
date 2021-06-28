@@ -22,7 +22,7 @@ public class CommentService {
     private final MemberRepository memberRepository;
     private final VideoRepository videoRepository;
 
-    public void rootComment(RootCommentDto rootCommentDto) {
+    public Long rootComment(RootCommentDto rootCommentDto) {
 
         final Member[] members = new Member[1];
         final Video[] videos = new Video[1];
@@ -40,9 +40,10 @@ public class CommentService {
         Comment comment = new Comment(members[0], videos[0], rootCommentDto.getComment());
         commentRepository.save(comment);
 
+        return comment.getId();
     }
 
-    public void nestComment(NestCommentDto nestCommentDto) {
+    public Long nestComment(NestCommentDto nestCommentDto) {
 
         final Member[] members = new Member[1];
         final Video[] videos = new Video[1];
@@ -66,5 +67,7 @@ public class CommentService {
         Comment newComment = new Comment(members[0], videos[0], nestCommentDto.getContent(), parents[0]);
 
         commentRepository.save(newComment);
+
+        return newComment.getId();
     }
 }

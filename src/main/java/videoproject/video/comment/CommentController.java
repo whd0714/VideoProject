@@ -15,6 +15,7 @@ import javax.xml.transform.Result;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -25,11 +26,20 @@ public class CommentController {
     private final CommentRepository commentRepository;
 
     @PostMapping("/api/comment/new/root")
-    public Result newRootComment(@RequestBody RootCommentDto rootCommentDto) {
+    public Map newRootComment(@RequestBody RootCommentDto rootCommentDto) {
 
-        commentService.rootComment(rootCommentDto);
+        Map map = new HashMap<String, Object>();
+        Long commentId = commentService.rootComment(rootCommentDto);
 
-        return null;
+        Optional<Comment> comment = commentRepository.findById(commentId);
+        comment.ifPresent(c-> {
+            CommentByVideoDto commentByVideoDto = new CommentByVideoDto(c);
+            map.put("result", commentByVideoDto);
+            map.put("success", true);
+            System.out.println("!!!!!!!!!!!!!!!!" + commentByVideoDto);
+        });
+
+        return map;
     }
 
     @PostMapping("/api/comment/getComment")
@@ -41,7 +51,7 @@ public class CommentController {
 
 
         Result result = new Result(collect);
-        System.out.println("@@@@@@@@@@@@" + result);
+
         return result;
     }
 
@@ -49,7 +59,13 @@ public class CommentController {
     public Map addNestedComment(@RequestBody NestCommentDto nestCommentDto) {
         Map map = new HashMap<String, Object>();
 
-        commentService.nestComment(nestCommentDto);
+        Long commentId = commentService.nestComment(nestCommentDto);
+        Optional<Comment> comment = commentRepository.findById(commentId);
+        comment.ifPresent(c->{
+            CommentByVideoDto commentByVideoDto = new CommentByVideoDto(c);
+            map.put("result", commentByVideoDto);
+            map.put("success",true);
+        });
 
         return map;
     }

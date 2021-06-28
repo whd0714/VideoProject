@@ -30,7 +30,6 @@ public class Member {
     private LocalDateTime joinAt;
     private boolean isAdmin;
 
-
     @OneToMany(mappedBy = "subscriber", fetch = FetchType.LAZY)
     private List<SubScribe> subScribes = new ArrayList<>();
 
@@ -39,17 +38,6 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<Comment> comments = new ArrayList<>();
-
-    public Member(String name, String email, String password) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.joinAt = LocalDateTime.now();
-    }
-
-   /* public void changeSubscribe(SubScribe subScribe) {
-        this.subScribe = subScribe;
-    }*/
 
     @Override
     public String toString() {
@@ -62,6 +50,18 @@ public class Member {
                 ", isAdmin=" + isAdmin +
                 '}';
     }
+
+    public Member(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.joinAt = LocalDateTime.now();
+    }
+
+   /* public void changeSubscribe(SubScribe subScribe) {
+        this.subScribe = subScribe;
+    }*/
+
 
     public void creator(Creator creator) {
         this.creator = creator;
