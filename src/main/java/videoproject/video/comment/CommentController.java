@@ -36,7 +36,6 @@ public class CommentController {
             CommentByVideoDto commentByVideoDto = new CommentByVideoDto(c);
             map.put("result", commentByVideoDto);
             map.put("success", true);
-            System.out.println("!!!!!!!!!!!!!!!!" + commentByVideoDto);
         });
 
         return map;
@@ -57,6 +56,7 @@ public class CommentController {
 
     @PostMapping("/api/comment/replay")
     public Map addNestedComment(@RequestBody NestCommentDto nestCommentDto) {
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!" + nestCommentDto);
         Map map = new HashMap<String, Object>();
 
         Long commentId = commentService.nestComment(nestCommentDto);
@@ -66,6 +66,8 @@ public class CommentController {
             map.put("result", commentByVideoDto);
             map.put("success",true);
         });
+
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!" + map);
 
         return map;
     }
