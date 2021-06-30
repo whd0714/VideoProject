@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import videoproject.video.comment.Comment;
 import videoproject.video.creator.Creator;
+import videoproject.video.disLike.DisLike;
+import videoproject.video.like.Like;
 import videoproject.video.subscribe.SubScribe;
 
 import videoproject.video.videos.Video;
@@ -38,6 +40,12 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Like> likes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<DisLike> disLikes = new ArrayList<>();
 
     @Override
     public String toString() {
